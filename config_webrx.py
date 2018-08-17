@@ -6,6 +6,7 @@ config_webrx: configuration options for OpenWebRX
 	This file is part of OpenWebRX,
 	an open-source SDR receiver software with a web UI.
 	Copyright (c) 2013-2015 by Andras Retzler <randras@sdr.hu>
+        Copyright (c) 2018 by Syed Faisal Akber <va3sfa@rac.ca>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -76,6 +77,12 @@ samp_rate = 250000
 center_freq = 145525000
 rf_gain = 5 #in dB. For an RTL-SDR, rf_gain=0 will set the tuner to auto gain mode, else it will be in manual gain mode.
 ppm = 0
+# Sampling Mode
+# 1 for direct sampling of I.
+# 2 for direct sampling of Q.
+# 3 for I/Q sampling.
+# Use 2 for HF of the RTL-SDR.COM V3 and 3 for default.
+samp_mode = 3
 
 audio_compression="adpcm" #valid values: "adpcm", "none"
 fft_compression="adpcm" #valid values: "adpcm", "none"
@@ -100,7 +107,7 @@ Note: if you experience audio underruns while CPU usage is 100%, you can:
 
 # >> RTL-SDR via rtl_sdr
 
-start_rtl_command="rtl_sdr -s {samp_rate} -f {center_freq} -p {ppm} -g {rf_gain} -".format(rf_gain=rf_gain, center_freq=center_freq, samp_rate=samp_rate, ppm=ppm)
+start_rtl_command="rtl_sdr -D{samp_mode} -s {samp_rate} -f {center_freq} -p {ppm} -g {rf_gain} -".format(rf_gain=rf_gain, center_freq=center_freq, samp_rate=samp_rate, ppm=ppm, samp_mode=samp_mode)
 format_conversion="csdr convert_u8_f"
 
 #start_rtl_command="hackrf_transfer -s {samp_rate} -f {center_freq} -g {rf_gain} -l16 -a0 -q -r-".format(rf_gain=rf_gain, center_freq=center_freq, samp_rate=samp_rate, ppm=ppm)
